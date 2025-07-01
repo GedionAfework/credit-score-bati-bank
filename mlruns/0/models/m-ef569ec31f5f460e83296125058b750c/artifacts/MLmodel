@@ -1,0 +1,22 @@
+artifact_path: file:///C:/Users/Gedion%20Afework/Desktop/kaim/credit-score-bati-bank/mlruns/0/models/m-ef569ec31f5f460e83296125058b750c/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.7
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.0
+mlflow_version: 3.1.1
+model_id: m-ef569ec31f5f460e83296125058b750c
+model_size_bytes: 139393
+model_uuid: m-ef569ec31f5f460e83296125058b750c
+prompts: null
+run_id: e9afd8facc0c4db782151c3b6adc4474
+utc_time_created: '2025-07-01 20:10:12.135259'

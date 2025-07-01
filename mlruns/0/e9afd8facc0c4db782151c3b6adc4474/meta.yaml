@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/Gedion%20Afework/Desktop/kaim/credit-score-bati-bank/mlruns/0/e9afd8facc0c4db782151c3b6adc4474/artifacts
+end_time: 1751400618131
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e9afd8facc0c4db782151c3b6adc4474
+run_name: GradientBoosting
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1751400477752
+status: 3
+tags: []
+user_id: Gedion Afework
