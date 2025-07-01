@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/Gedion%20Afework/Desktop/kaim/credit-score-bati-bank/mlruns/0/models/m-24cf617399fd47b29dfa7e21cf4e0b37/artifacts
+creation_timestamp: 1751400465815
+experiment_id: '0'
+last_updated_timestamp: 1751400477700
+model_id: m-24cf617399fd47b29dfa7e21cf4e0b37
+model_type: null
+name: model
+source_run_id: 91d379321bd94936a15e7e923e8531a3
+status: 2
+status_message: null

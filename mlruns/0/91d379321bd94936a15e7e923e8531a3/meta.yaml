@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/Gedion%20Afework/Desktop/kaim/credit-score-bati-bank/mlruns/0/91d379321bd94936a15e7e923e8531a3/artifacts
+end_time: 1751400477735
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 91d379321bd94936a15e7e923e8531a3
+run_name: LogisticRegression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1751400464384
+status: 3
+tags: []
+user_id: Gedion Afework
