@@ -1,16 +1,9 @@
 import pandas as pd
 import mlflow
 import mlflow.sklearn
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.metrics import (
-    accuracy_score,
-    precision_score,
-    recall_score,
-    f1_score,
-    roc_auc_score,
-)
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 import logging
 
 logging.basicConfig(
@@ -19,52 +12,44 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def train_model(input_path):
+def train_model():
     try:
-        data = pd.read_csv(input_path)
+        data = pd.read_csv("data/processed/processed_data.csv")
         logger.info(f"Loaded data with columns: {data.columns.tolist()}")
     except FileNotFoundError:
-        logger.error(f"File {input_path} not found")
+        logger.error("Processed data file not found")
         return
 
-    X = data.drop(["is_high_risk", "CustomerId"], axis=1)
+    feature_cols = [
+        col for col in data.columns if col not in ["is_high_risk", "CustomerId"]
+    ]
+    X = data[feature_cols]
     y = data["is_high_risk"]
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
     )
 
-    models = {
-        "LogisticRegression": (LogisticRegression(), {"C": [0.1, 1, 10]}),
-        "GradientBoosting": (
-            GradientBoostingClassifier(),
-            {"n_estimators": [50, 100], "learning_rate": [0.01, 0.1]},
-        ),
-    }
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train, y_train)
 
-    for name, (model, params) in models.items():
-        with mlflow.start_run(run_name=name):
-            logger.info(f"Training {name}")
-            grid = GridSearchCV(model, params, cv=5, scoring="roc_auc")
-            grid.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    logger.info(
+        f"Model metrics - Accuracy: {accuracy}, Precision: {precision}, Recall: {recall}"
+    )
 
-            y_pred = grid.predict(X_test)
-            metrics = {
-                "accuracy": accuracy_score(y_test, y_pred),
-                "precision": precision_score(y_test, y_pred),
-                "recall": recall_score(y_test, y_pred),
-                "f1": f1_score(y_test, y_pred),
-                "roc_auc": roc_auc_score(y_test, y_pred),
-            }
-
-            mlflow.log_params(grid.best_params_)
-            for metric_name, value in metrics.items():
-                mlflow.log_metric(metric_name, value)
-            mlflow.sklearn.log_model(grid.best_estimator_, "model")
-            logger.info(f"Logged metrics for {name}: {metrics}")
-
-    return grid.best_estimator_
+    mlflow.set_tracking_uri("sqlite:///mlruns.db")
+    mlflow.set_experiment("credit_score_model")
+    with mlflow.start_run():
+        mlflow.log_param("n_estimators", 100)
+        mlflow.log_metric("accuracy", accuracy)
+        mlflow.log_metric("precision", precision)
+        mlflow.log_metric("recall", recall)
+        mlflow.sklearn.log_model(model, "model", registered_model_name="best_model")
+    logger.info("Model trained and logged as 'best_model'")
 
 
 if __name__ == "__main__":
-    input_path = "data/processed/processed_data.csv"
-    train_model(input_path)
+    train_model()
