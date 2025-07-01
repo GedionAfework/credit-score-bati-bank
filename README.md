@@ -157,4 +157,4 @@ The CI/CD pipeline in `.github/workflows/ci.yml` automatically runs tests on eac
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ## Contact
-For questions or support, contact Gedion Mekbeb Afework at [your-email@example.com].
+For questions or support, contact Gedion Mekbeb Afework at [gedionmekbeb2@gmail.com].
